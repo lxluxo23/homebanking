@@ -5,16 +5,20 @@ import com.mindhub.homebanking.models.enums.CardColor;
 import com.mindhub.homebanking.models.enums.CardType;
 import com.mindhub.homebanking.models.enums.TransactionType;
 import com.mindhub.homebanking.repositories.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @SpringBootApplication
 public class HomebankingApplication {
+	@Autowired
+	private PasswordEncoder passwordEnconder;
 
 	public static void main(String[] args) {
 		SpringApplication.run(HomebankingApplication.class, args);
@@ -28,10 +32,13 @@ public class HomebankingApplication {
 			ClientLoanRepository clientLoanRepository,
 			CardRepository cardRepository) {
 		return (args) -> {
-			Client melba = new Client("Melba", "Morel","melba@mindhub.com");
+
+
+
+			Client melba = new Client("Melba", "Morel","melba@mindhub.com" ,passwordEnconder.encode("pas1234"));
 			clientRepository.save(melba);
 
-			Client luis = new Client("Luis", "Céspedes","a@a.cl");
+			Client luis = new Client("Luis", "Céspedes","a@a.cl",passwordEnconder.encode("supercontraseña"));
 			clientRepository.save(luis);
 
 			Account cuenta1 = new Account("VIN001", LocalDateTime.now(), 5000 ,melba);
