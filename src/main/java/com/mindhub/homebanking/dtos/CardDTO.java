@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 public class CardDTO {
     private Long id;
-    private String cardholder;
+    private String cardHolder;
     private CardType type;
     private CardColor color;
     private String number;
@@ -18,7 +18,7 @@ public class CardDTO {
 
     public CardDTO(Card card) {
         this.id = card.getId();
-        this.cardholder = card.getCardholder();
+        this.cardHolder = card.getCardholder();
         this.type = card.getType();
         this.color = card.getColor();
         this.number = card.getNumber();
@@ -35,12 +35,12 @@ public class CardDTO {
         this.id = id;
     }
 
-    public String getCardholder() {
-        return cardholder;
+    public String getCardHolder() {
+        return cardHolder;
     }
 
-    public void setCardholder(String cardholder) {
-        this.cardholder = cardholder;
+    public void setCardHolder(String cardHolder) {
+        this.cardHolder = cardHolder;
     }
 
     public CardType getType() {

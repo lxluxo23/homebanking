@@ -2,7 +2,6 @@ package com.mindhub.homebanking.configurations;
 
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.repositories.ClientRepository;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,11 +24,15 @@ public class WebAuthentication extends GlobalAuthenticationConfigurerAdapter {
     public void init(AuthenticationManagerBuilder auth) throws Exception {
       auth.userDetailsService(email->{
           Client client = clientRepository.findByEmail(email);
-
           if (client != null) {
-              System.out.println(client.toString());
-              return new User(client.getEmail(),client.getPassword(),
-                      AuthorityUtils.createAuthorityList("USER"));
+              if (client.getEmail().equals("admin@admin.cl")){
+                  return new User(client.getEmail(),client.getPassword(),
+                          AuthorityUtils.createAuthorityList("ADMIN","USER"));
+              }
+              else {
+                  return new User(client.getEmail(),client.getPassword(),
+                          AuthorityUtils.createAuthorityList("USER"));
+              }
           } else {
               throw new UsernameNotFoundException("Unknown user: " + email);
           }

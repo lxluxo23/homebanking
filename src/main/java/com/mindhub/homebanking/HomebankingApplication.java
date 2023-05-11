@@ -36,10 +36,12 @@ public class HomebankingApplication {
 
 
 			Client melba = new Client("Melba", "Morel","melba@mindhub.com" ,passwordEnconder.encode("pas1234"));
-			clientRepository.save(melba);
-
 			Client luis = new Client("Luis", "Céspedes","a@a.cl",passwordEnconder.encode("supercontraseña"));
+			Client admin = new Client("admin","admin","admin@admin.cl",passwordEnconder.encode("admin1234"));
+
+			clientRepository.save(melba);
 			clientRepository.save(luis);
+			clientRepository.save(admin);
 
 			Account cuenta1 = new Account("VIN001", LocalDateTime.now(), 5000 ,melba);
 			Account cuenta2 = new Account("VIN002", LocalDateTime.now().plusDays(1), 7500 ,melba);
