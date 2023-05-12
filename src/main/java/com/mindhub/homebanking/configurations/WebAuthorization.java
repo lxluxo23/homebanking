@@ -26,21 +26,22 @@ public class WebAuthorization extends WebSecurityConfigurerAdapter {
                 .antMatchers("/rest/**").hasAuthority("ADMIN")
                 .antMatchers("/**").hasAuthority("USER");
 
-
-
         http.csrf().disable();
         http.headers().frameOptions().disable();
-        http.exceptionHandling().authenticationEntryPoint((req, res, exc) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED));
-        http.formLogin().successHandler((req, res, auth) -> clearAuthenticationAttributes(req));
-        http.formLogin().failureHandler((req, res, exc) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED));
-        http.logout().logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler());
-
         http.formLogin()
+                .loginPage("/api/login")
                 .usernameParameter("email")
                 .passwordParameter("password")
-                .loginPage("/api/login");
+                .successHandler((req, res, auth) -> clearAuthenticationAttributes(req))
+                .failureHandler((req, res, exc) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED));
 
-        http.logout().logoutUrl("/api/logout");
+        http.logout()
+                .logoutUrl("/api/logout")
+                .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler());
+
+        http.exceptionHandling().authenticationEntryPoint((req, res, exc) -> {
+            res.sendRedirect("/web/index.html");
+        });
 
     }
     private void clearAuthenticationAttributes(HttpServletRequest request) {
