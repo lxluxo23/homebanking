@@ -1,5 +1,6 @@
 package com.mindhub.homebanking.configurations;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.http.HttpMethod;
@@ -36,8 +37,15 @@ public class WebAuthorization extends WebSecurityConfigurerAdapter {
                 .loginPage("/api/login")
                 .usernameParameter("email")
                 .passwordParameter("password")
-                .successHandler((req, res, auth) -> clearAuthenticationAttributes(req))
-                .failureHandler((req, res, exc) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED));
+                .permitAll()
+                .successHandler((req, res, auth) -> {
+                    clearAuthenticationAttributes(req);
+                    //req.getSession().setAttribute("message", "Login successful");
+                })
+                .failureHandler((req, res, exc) -> {
+                    // req.getSession().setAttribute("message", "Login failed");
+                    res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                });
 
         http.logout()
                 .logoutUrl("/api/logout")
@@ -54,4 +62,5 @@ public class WebAuthorization extends WebSecurityConfigurerAdapter {
             session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
         }
     }
+
 }
