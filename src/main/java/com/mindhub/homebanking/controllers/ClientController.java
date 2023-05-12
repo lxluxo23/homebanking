@@ -65,14 +65,4 @@ public class ClientController {
     public ClientDTO getByCurrent(Authentication authentication){
         return new ClientDTO(clientRepository.findByEmail(authentication.getName()));
     }
-
-    @PostMapping ("/clients/current/cards")
-    public String createCurrentClientCard(){
-        return "crear targeta al cliente actual";
-    }
-    @GetMapping ("/clients/current/cards")
-    public String getCurrentClientCards(){
-        return "obtener targetas del cliente actual";
-    }
-
 }

@@ -39,10 +39,7 @@ public class WebAuthentication extends GlobalAuthenticationConfigurerAdapter {
       });
     }
     @Bean
-
     public PasswordEncoder passwordEncoder() {
-
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-
     }
 }
