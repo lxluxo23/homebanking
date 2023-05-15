@@ -32,19 +32,22 @@ public class CardController {
                 LocalDateTime.now().plusYears(5));
         cardRepository.save(card);
     }
+
     @Autowired
     private ClientRepository clientRepository;
     @Autowired
     private CardRepository cardRepository;
 
     @GetMapping("/cards/{id}")
-    public CardDTO getAccount(@PathVariable Long id){
+    public CardDTO getAccount(@PathVariable Long id) {
         return cardRepository.findById(id).map(CardDTO::new).orElse(null);
     }
-    @GetMapping ("/clients/current/cards")
-    public String getCurrentClientCards(){
+
+    @GetMapping("/clients/current/cards")
+    public String getCurrentClientCards() {
         return "obtener targetas del cliente actual";
     }
+
     @PostMapping("/clients/current/cards")
     public ResponseEntity<Object> postCard(
             Authentication authentication,
@@ -58,31 +61,18 @@ public class CardController {
             return new ResponseEntity<>("No user found", HttpStatus.CONFLICT);
         }
         try {
-            int numDebitCards = (int) client.getCards().stream()
-                    .filter(card -> card.getType() == CardType.DEBIT)
+            int numCards = (int) client.getCards()
+                    .stream()
+                    .filter(card -> card.getType() == cardType)
                     .count();
-            int numCreditCards = (int) client.getCards().stream()
-                    .filter(card -> card.getType() == CardType.CREDIT)
-                    .count();
-            if (cardType == CardType.DEBIT){
-                if (numDebitCards >= 3) {
-                    return new ResponseEntity<>("More than three debit cards", HttpStatus.BAD_REQUEST);
-                }
-                createAndSaveCard(client, cardType, cardColor);
-            }
-            else if (cardType == CardType.CREDIT){
-                if (numCreditCards >= 3) {
-                    return new ResponseEntity<>("More than three credit cards", HttpStatus.BAD_REQUEST);
-                }
-                createAndSaveCard(client, cardType, cardColor);
-            }
-            else {
-                return new ResponseEntity<>("Invalid card type", HttpStatus.BAD_REQUEST);
+            if (numCards >= 3) {
+                return new ResponseEntity<>("More than three cards of same type", HttpStatus.BAD_REQUEST);
             }
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>("Card created! ",HttpStatus.CREATED);
+        createAndSaveCard(client, cardType, cardColor);
+        return new ResponseEntity<>("Card created! ", HttpStatus.CREATED);
     }
 
 }

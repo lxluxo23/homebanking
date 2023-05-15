@@ -22,47 +22,49 @@ public class WebAuthorization {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/web/index.html").permitAll()
-                .antMatchers("/api/login/**").permitAll()
-                .antMatchers("/web/css/**", "/web/img/**", "/web/js/**").permitAll()
-                .antMatchers("/actuator/**").permitAll()
-                .antMatchers(HttpMethod.POST,"/api/clients").permitAll()
-                .antMatchers("/h2-console/**").hasAuthority("ADMIN")
-                .antMatchers("/admin/**").hasAuthority("ADMIN")
-                .antMatchers("/rest/**").hasAuthority("ADMIN")
-                .antMatchers("/**").hasAuthority("USER");
-
-        http.csrf().disable();
-        http.headers().frameOptions().disable();
-        http.formLogin()
-                .loginPage("/api/login")
-                .usernameParameter("email")
-                .passwordParameter("password")
-                .permitAll()
-                .successHandler((req, res, auth) -> {
-                    Map <String,Object> sucessResponce = new HashMap<>();
-                    sucessResponce.put("messaje", "Login successful");
-                    res.setStatus(HttpServletResponse.SC_OK);
-                    res.setContentType("application/json");
-                    res.getWriter().write(new ObjectMapper().writeValueAsString(sucessResponce));
-                    clearAuthenticationAttributes(req);
-                })
-                .failureHandler((req, res, exc) -> {
-                    Map <String,Object> errorResponse = new HashMap<>();
-                    errorResponse.put("messaje", "Login failed");
-                    res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                    res.setContentType("application/json");
-                    res.getWriter().write(new ObjectMapper().writeValueAsString(errorResponse));
-                });
-
-        http.logout()
-                .logoutUrl("/api/logout")
-                .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler());
-
-        http.exceptionHandling().authenticationEntryPoint((req, res, exc) -> {
-            res.sendRedirect("/web/index.html");
-        });
+        http
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
+                        .antMatchers("/web/index.html").permitAll()
+                        .antMatchers("/api/login/**").permitAll()
+                        .antMatchers("/web/css/**", "/web/img/**", "/web/js/**").permitAll()
+                        .antMatchers("/actuator/**").permitAll()
+                        .antMatchers(HttpMethod.POST, "/api/clients").permitAll()
+                        .antMatchers("/h2-console/**").hasAuthority("ADMIN")
+                        .antMatchers("/admin/**").hasAuthority("ADMIN")
+                        .antMatchers("/rest/**").hasAuthority("ADMIN")
+                        .antMatchers("/**").hasAuthority("USER")
+                )
+                .headers(headers -> headers
+                        .frameOptions().disable()
+                )
+                .formLogin(formLogin -> formLogin
+                        .loginPage("/api/login")
+                        .usernameParameter("email")
+                        .passwordParameter("password")
+                        .permitAll()
+                        .successHandler((req, res, auth) -> {
+                            Map<String, Object> successResponse = new HashMap<>();
+                            successResponse.put("message", "Login successful");
+                            res.setStatus(HttpServletResponse.SC_OK);
+                            res.setContentType("application/json");
+                            res.getWriter().write(new ObjectMapper().writeValueAsString(successResponse));
+                            clearAuthenticationAttributes(req);
+                        })
+                        .failureHandler((req, res, exc) -> {
+                            Map<String, Object> errorResponse = new HashMap<>();
+                            errorResponse.put("message", "Login failed");
+                            res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                            res.setContentType("application/json");
+                            res.getWriter().write(new ObjectMapper().writeValueAsString(errorResponse));
+                        }))
+                .logout(logout -> logout
+                        .logoutUrl("/api/logout")
+                        .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler()))
+                .exceptionHandling(exceptionHandling -> exceptionHandling
+                        .authenticationEntryPoint((req, res, exc) -> {
+                            res.sendRedirect("/web/index.html");
+                        }));
 
         return http.build();
     }
@@ -74,5 +76,3 @@ public class WebAuthorization {
         }
     }
 }
-
-

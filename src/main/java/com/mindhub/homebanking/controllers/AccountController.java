@@ -55,6 +55,7 @@ public class AccountController {
     }
 
     @GetMapping("/clients/current/accounts")
+
     public String getCurrentClientAccounts(){
         return "el json con las cuentas";
     }
