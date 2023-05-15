@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Random;
 
 import static java.util.stream.Collectors.toList;
 
@@ -55,8 +54,9 @@ public class AccountController {
     }
 
     @GetMapping("/clients/current/accounts")
-
-    public String getCurrentClientAccounts(){
-        return "el json con las cuentas";
+    public AccountDTO getCurrentAccount(Authentication authentication){
+        return new AccountDTO(accountRepository.findByEmail(authentication.getName()));
+        //public String getCurrentClientAccounts(){
+        //return "el json con las cuentas";
     }
 }
