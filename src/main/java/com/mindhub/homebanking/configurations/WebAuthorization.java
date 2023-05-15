@@ -1,13 +1,11 @@
 package com.mindhub.homebanking.configurations;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
@@ -43,12 +41,19 @@ public class WebAuthorization {
                 .passwordParameter("password")
                 .permitAll()
                 .successHandler((req, res, auth) -> {
+                    Map <String,Object> sucessResponce = new HashMap<>();
+                    sucessResponce.put("messaje", "Login successful");
+                    res.setStatus(HttpServletResponse.SC_OK);
+                    res.setContentType("application/json");
+                    res.getWriter().write(new ObjectMapper().writeValueAsString(sucessResponce));
                     clearAuthenticationAttributes(req);
-                    //req.getSession().setAttribute("message", "Login successful");
                 })
                 .failureHandler((req, res, exc) -> {
-                    // req.getSession().setAttribute("message", "Login failed");
-                    res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                    Map <String,Object> errorResponse = new HashMap<>();
+                    errorResponse.put("messaje", "Login failed");
+                    res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                    res.setContentType("application/json");
+                    res.getWriter().write(new ObjectMapper().writeValueAsString(errorResponse));
                 });
 
         http.logout()
