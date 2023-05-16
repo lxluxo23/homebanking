@@ -32,31 +32,41 @@ public class AccountController {
     public List<AccountDTO> getAccounts() {
         return accountRepository.findAll().stream().map(AccountDTO::new).collect(toList());
     }
+
     @GetMapping("/accounts/{id}")
     public AccountDTO getAccountById(@PathVariable Long id) {
         return accountRepository.findById(id).map(AccountDTO::new).orElse(null);
     }
+
     @PostMapping("/clients/current/accounts")
-    public ResponseEntity<Object> createAcountCurrentClient(Authentication authentication){
+    public ResponseEntity<Object> createAcountCurrentClient(Authentication authentication) {
         Client client = clientRepository.findByEmail(authentication.getName());
         int numAccounts = client.getAccounts().size();
-        if (numAccounts>=3){
+        if (numAccounts >= 3) {
             return new ResponseEntity<>("The user already has at least 3 accounts ", HttpStatus.CONFLICT);
         }
         try {
-            Account account = new Account(AccountUtils.generateVinNumber(), LocalDateTime.now(), 0 ,client);
+            Account account = new Account(AccountUtils.generateVinNumber(), LocalDateTime.now(), 0, client);
             accountRepository.save(account);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        return new ResponseEntity<>("Account created",HttpStatus.CREATED);
+        return new ResponseEntity<>("Account created", HttpStatus.CREATED);
     }
-
     @GetMapping("/clients/current/accounts")
-    public AccountDTO getCurrentAccount(Authentication authentication){
-        return new AccountDTO(accountRepository.findByEmail(authentication.getName()));
-        //public String getCurrentClientAccounts(){
-        //return "el json con las cuentas";
+    public List<AccountDTO> getAccounts(Authentication authentication){
+        Client client = this.clientRepository.findByEmail(authentication.getName());
+        return client.getAccounts().stream().map(AccountDTO::new).collect(toList());
     }
+    /*
+     * @GetMapping("/clients/current/accounts")
+     * public AccountDTO getCurrentAccount(Authentication authentication){
+     * return new
+     * AccountDTO(accountRepository.findByEmail(authentication.getName()));
+     * public String getCurrentClientAccounts(){
+     * return "el json con las cuentas";
+     * }
+     */
+
 }
