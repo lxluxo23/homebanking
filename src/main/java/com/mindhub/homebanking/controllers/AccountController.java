@@ -39,7 +39,7 @@ public class AccountController {
     }
 
     @PostMapping("/clients/current/accounts")
-    public ResponseEntity<Object> createAcountCurrentClient(Authentication authentication) {
+    public ResponseEntity<Object> createAccountCurrentClient(Authentication authentication) {
         Client client = clientRepository.findByEmail(authentication.getName());
         int numAccounts = client.getAccounts().size();
         if (numAccounts >= 3) {
