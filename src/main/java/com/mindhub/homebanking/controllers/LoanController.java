@@ -78,12 +78,15 @@ public class LoanController {
         if (loanApplicationDTO.getAmount()>loan.getMaxAmount()){
             return new ResponseEntity<>("The requested amount exceeds the maximum allowed for this loan.", HttpStatus.FORBIDDEN);
         }
-        Double finalAmount = loanApplicationDTO.getAmount() + (loanApplicationDTO.getAmount()* 0.2);
+        double finalAmount = loanApplicationDTO.getAmount() + (loanApplicationDTO.getAmount()* 0.2);
         ClientLoan clientLoan = new ClientLoan(client,loan,finalAmount,loanApplicationDTO.getPayments());
         clientLoanRepository.save(clientLoan);
 
         Transaction transaction = new Transaction(TransactionType.CREDIT,loanApplicationDTO.getAmount(),"loan approved", LocalDateTime.now(),clientAccount );
         transactionRepository.save(transaction);
+
+        clientAccount.setBalance(clientAccount.getBalance() + finalAmount);
+        accountRepository.save(clientAccount);
         
         return new ResponseEntity<>("Loan application successfully completed.", HttpStatus.CREATED);
     }
