@@ -34,9 +34,7 @@ public class HomebankingApplication {
 			ClientLoanRepository clientLoanRepository,
 			CardRepository cardRepository) {
 		return (args) -> {
-
-
-
+			/*
 			Client melba = new Client("Melba", "Morel","melba@mindhub.com" ,passwordEnconder.encode("pas1234"));
 			Client luis = new Client("Luis", "Céspedes","a@a.cl",passwordEnconder.encode("supercontraseña"));
 			Client admin = new Client("admin","admin","admin@admin.cl",passwordEnconder.encode("admin1234"));
@@ -96,6 +94,7 @@ public class HomebankingApplication {
 
 			cardRepository.save(card1);
 			cardRepository.save(card2);
+			 */
 	};
 	}
 }

@@ -59,14 +59,5 @@ public class AccountController {
         Client client = this.clientRepository.findByEmail(authentication.getName());
         return client.getAccounts().stream().map(AccountDTO::new).collect(toList());
     }
-    /*
-     * @GetMapping("/clients/current/accounts")
-     * public AccountDTO getCurrentAccount(Authentication authentication){
-     * return new
-     * AccountDTO(accountRepository.findByEmail(authentication.getName()));
-     * public String getCurrentClientAccounts(){
-     * return "el json con las cuentas";
-     * }
-     */
 
 }
