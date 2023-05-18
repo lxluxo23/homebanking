@@ -19,8 +19,8 @@ import java.util.List;
 
 @SpringBootApplication
 public class HomebankingApplication {
-	@Autowired
-	private PasswordEncoder passwordEnconder;
+//	@Autowired
+//	private PasswordEncoder passwordEnconder;
 
 	public static void main(String[] args) {
 		SpringApplication.run(HomebankingApplication.class, args);

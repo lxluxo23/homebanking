@@ -85,7 +85,7 @@ public class LoanController {
         Transaction transaction = new Transaction(TransactionType.CREDIT,loanApplicationDTO.getAmount(),"loan approved", LocalDateTime.now(),clientAccount );
         transactionRepository.save(transaction);
 
-        clientAccount.setBalance(clientAccount.getBalance() + finalAmount);
+        clientAccount.setBalance(clientAccount.getBalance() + loanApplicationDTO.getAmount());
         accountRepository.save(clientAccount);
         
         return new ResponseEntity<>("Loan application successfully completed.", HttpStatus.CREATED);

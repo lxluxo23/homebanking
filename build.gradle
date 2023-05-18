@@ -27,17 +27,13 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	//implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml'
 
 	implementation 'org.postgresql:postgresql'
 	implementation 'org.springdoc:springdoc-openapi-ui:1.7.0'
 	implementation 'org.springdoc:springdoc-openapi-security:1.7.0'
- 	//implementation 'org.springdoc:springdoc-openapi-data-rest:1.7.0'
- 	/*
-	implementation 'io.springfox:springfox-swagger2:3.0.0'
-	implementation 'io.springfox:springfox-boot-starter:3.0.0'
-	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
-	*/
+
 	compileOnly 'org.projectlombok:lombok:1.18.20'
 	//runtimeOnly 'com.h2database:h2'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -45,5 +41,6 @@ dependencies {
 }
 
 tasks.named('test') {
-//	useJUnitPlatform()
+	//no comntar lo de abajo
+	useJUnitPlatform()
 }

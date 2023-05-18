@@ -6,6 +6,11 @@ import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.repositories.AccountRepository;
 import com.mindhub.homebanking.repositories.ClientRepository;
 import com.mindhub.homebanking.utils.AccountUtils;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,16 +34,26 @@ public class AccountController {
     private ClientRepository clientRepository;
 
     @GetMapping("/accounts")
+    @Operation(summary = "Get all accounts")
     public List<AccountDTO> getAccounts() {
         return accountRepository.findAll().stream().map(AccountDTO::new).collect(toList());
     }
 
     @GetMapping("/accounts/{id}")
+    @Operation(summary = "Get account by ID")
     public AccountDTO getAccountById(@PathVariable Long id) {
         return accountRepository.findById(id).map(AccountDTO::new).orElse(null);
     }
 
     @PostMapping("/clients/current/accounts")
+    @Operation(summary = "Create an account for the current client")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Account created",
+                    content = @Content(mediaType = "text/plain", schema = @Schema(example = "Account created"))),
+            @ApiResponse(responseCode = "409", description = "The user already has at least 3 accounts",
+                    content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error",
+                    content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class)))    })
     public ResponseEntity<Object> createAccountCurrentClient(Authentication authentication) {
         Client client = clientRepository.findByEmail(authentication.getName());
         int numAccounts = client.getAccounts().size();
@@ -54,8 +69,10 @@ public class AccountController {
 
         return new ResponseEntity<>("Account created", HttpStatus.CREATED);
     }
+
     @GetMapping("/clients/current/accounts")
-    public List<AccountDTO> getAccounts(Authentication authentication){
+    @Operation(summary = "Get all accounts of the current client")
+    public List<AccountDTO> getAccounts(Authentication authentication) {
         Client client = this.clientRepository.findByEmail(authentication.getName());
         return client.getAccounts().stream().map(AccountDTO::new).collect(toList());
     }

@@ -37,6 +37,7 @@ public class WebAuthentication extends GlobalAuthenticationConfigurerAdapter {
               throw new UsernameNotFoundException("Unknown user: " + email);
           }
       });
+
     }
     @Bean
     public PasswordEncoder passwordEncoder() {
