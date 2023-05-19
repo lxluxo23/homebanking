@@ -5,6 +5,7 @@ var app = new Vue({
         password:"",
         firstName: "",
         lastName: "",
+        phone:"",
         errorToats:null,
         errorMsg: "",
         showSignUp: false,
@@ -31,7 +32,7 @@ var app = new Vue({
                     'content-type': 'application/x-www-form-urlencoded'
                 }
             }
-            axios.post('/api/clients',`firstName=${this.firstName}&lastName=${this.lastName}&email=${this.email}&password=${this.password}`,config)
+            axios.post('/api/clients',`firstName=${this.firstName}&lastName=${this.lastName}&email=${this.email}&phone=${this.phone}&password=${this.password}`,config)
             .then(() => { this.signIn(event) })
             .catch(() =>{
                 this.errorMsg = "Sign up failed, check the information"

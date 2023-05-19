@@ -40,6 +40,7 @@ public class ClientController {
             @RequestParam String firstName,
             @RequestParam String lastName,
             @RequestParam String email,
+            @RequestParam String phone,
             @RequestParam String password){
         if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty()) {
             return new ResponseEntity<>("Missing data", HttpStatus.BAD_REQUEST);
@@ -48,7 +49,7 @@ public class ClientController {
             return new ResponseEntity<>("User already register!", HttpStatus.CONFLICT);
         }
         try {
-            Client client = new Client(firstName,lastName,email,passwordEncoder.encode(password));
+            Client client = new Client(firstName,lastName,email,phone,passwordEncoder.encode(password));
             Account account = new Account(AccountUtils.generateVinNumber(), LocalDateTime.now(), 0 ,client);
             clientRepository.save(client);
             accountRepository.save(account);

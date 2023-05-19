@@ -1,11 +1,7 @@
 package com.mindhub.homebanking;
 
-import com.mindhub.homebanking.models.*;
-import com.mindhub.homebanking.models.enums.CardColor;
-import com.mindhub.homebanking.models.enums.CardType;
-import com.mindhub.homebanking.models.enums.TransactionType;
 import com.mindhub.homebanking.repositories.*;
-
+import com.mindhub.homebanking.services.SmsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -13,21 +9,33 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
+import com.mindhub.homebanking.models.*;
+import com.mindhub.homebanking.models.enums.CardColor;
+import com.mindhub.homebanking.models.enums.CardType;
+import com.mindhub.homebanking.models.enums.TransactionType;
 import java.time.LocalDateTime;
 import java.util.List;
-
 
 @SpringBootApplication
 public class HomebankingApplication {
 	@Autowired
 	private PasswordEncoder passwordEnconder;
+	@Value("${twilio.phone.number}")
+	private String fromPhoneNumber;
+
+	@Autowired
+	private SmsService smsService;;
+
+
+	public HomebankingApplication() {
+
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(HomebankingApplication.class, args);
 	}
 
-	/*
+
 	@Bean
 	public CommandLineRunner initData(
 			ClientRepository clientRepository,
@@ -37,11 +45,11 @@ public class HomebankingApplication {
 			ClientLoanRepository clientLoanRepository,
 			CardRepository cardRepository) {
 		return (args) -> {
+			this.smsService.sendSms("+56953618681","hola desde el servicio de spring");
 
-
-			Client melba = new Client("Melba", "Morel","melba@mindhub.com" ,passwordEnconder.encode("pas1234"));
-			Client luis = new Client("Luis", "Céspedes","a@a.cl",passwordEnconder.encode("supercontraseña"));
-			Client admin = new Client("admin","admin","admin@admin.cl",passwordEnconder.encode("admin1234"));
+			Client melba = new Client("Melba", "Morel","melba@mindhub.com" ,passwordEnconder.encode("pas1234"),"+56999999999");
+			Client luis = new Client("Luis", "Céspedes","a@a.cl",passwordEnconder.encode("supercontraseña"),"+56953618681");
+			Client admin = new Client("admin","admin","admin@admin.cl",passwordEnconder.encode("admin1234"),"+56953618681");
 
 			clientRepository.save(melba);
 			clientRepository.save(luis);
@@ -98,7 +106,9 @@ public class HomebankingApplication {
 
 			cardRepository.save(card1);
 			cardRepository.save(card2);
+
+
 	};
 	}
-	 */
+
 }

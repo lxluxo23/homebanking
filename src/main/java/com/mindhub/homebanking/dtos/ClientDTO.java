@@ -10,6 +10,7 @@ public class ClientDTO {
     private String firstName;
     private String lastName;
     private String email;
+    private String phone;
     private Set<AccountDTO> accounts;
 
     private Set<ClientLoanDTO> loans;
@@ -21,11 +22,19 @@ public class ClientDTO {
         this.firstName = client.getFirstName();
         this.lastName = client.getLastName();
         this.email = client.getEmail();
+        this.phone = client.getPhone();
         this.accounts =  client.getAccounts().stream().map(AccountDTO::new).collect(Collectors.toSet());
         this.loans = client.getClientLoans().stream().map(ClientLoanDTO::new).collect(Collectors.toSet());
         this.cards = client.getCards().stream().map(CardDTO::new).collect(Collectors.toSet());
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
     public Long getId() {
         return id;

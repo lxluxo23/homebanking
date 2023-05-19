@@ -34,6 +34,10 @@ dependencies {
 	implementation 'org.springdoc:springdoc-openapi-ui:1.7.0'
 	implementation 'org.springdoc:springdoc-openapi-security:1.7.0'
 
+	//sms
+
+	implementation 'com.twilio.sdk:twilio:9.6.1'
+
 	compileOnly 'org.projectlombok:lombok:1.18.20'
 	runtimeOnly 'com.h2database:h2'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
