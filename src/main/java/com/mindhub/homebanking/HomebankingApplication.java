@@ -41,12 +41,10 @@ public class HomebankingApplication {
 			CardRepository cardRepository) {
 		return (args) -> {
 
-		/*
-		this.messageService.sendSms(
+			/*
+			this.messageService.sendSms(
 					"+56953618681",
 					"hola desde el servicio de spring");
-
-
 			this.messageService.sendWhatsapp(
 					"+56953618681",
 					"prueba de whatsapp desde el servicio"
@@ -57,21 +55,22 @@ public class HomebankingApplication {
 					"Melba",
 					"Morel",
 					"melba@mindhub.com",
-					passwordEnconder.encode("pas1234"),
-					"+56999999999");
+					"+56999999999",
+					passwordEnconder.encode("pas1234"));
 
 			Client luis = new Client(
 					"Luis",
-					"Céspedes", "a@a.cl",
-					passwordEnconder.encode("supercontraseña"),
-					"+56953618681");
+					"Céspedes",
+					"a@a.cl",
+					"+56953618681",
+					passwordEnconder.encode("supercontraseña"));
 
 			Client admin = new Client(
 					"admin",
 					"admin",
 					"admin@admin.cl",
-					passwordEnconder.encode("admin1234"),
-					"+56953618681");
+					"+56953618681",
+					passwordEnconder.encode("admin1234"));
 
 			clientRepository.save(melba);
 			clientRepository.save(luis);
@@ -197,8 +196,7 @@ public class HomebankingApplication {
 
 			cardRepository.save(card1);
 			cardRepository.save(card2);
-		 */
-
+						 */
 		};
 	}
 

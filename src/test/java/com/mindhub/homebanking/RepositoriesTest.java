@@ -14,7 +14,6 @@ import static org.hamcrest.Matchers.*;
 import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.NONE;
 
 @SpringBootTest
-
 @AutoConfigureTestDatabase(replace = NONE)
 public class RepositoriesTest {
     @Autowired
