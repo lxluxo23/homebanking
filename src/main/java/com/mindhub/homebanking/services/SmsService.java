@@ -25,6 +25,5 @@ public class SmsService {
             LOGGER.error("error sending message");
             LOGGER.error(e.getMessage());
         }
-
     }
 }
