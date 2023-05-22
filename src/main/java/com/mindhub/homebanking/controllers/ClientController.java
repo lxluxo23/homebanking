@@ -21,7 +21,6 @@ import static java.util.stream.Collectors.toList;
 @RequestMapping("/api")
 public class ClientController {
     @Autowired
-
     private PasswordEncoder passwordEncoder;
     @Autowired
     private ClientRepository clientRepository;
