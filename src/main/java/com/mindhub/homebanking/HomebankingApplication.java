@@ -1,20 +1,13 @@
 package com.mindhub.homebanking;
 
 import com.mindhub.homebanking.repositories.*;
-import com.mindhub.homebanking.services.SmsService;
+import com.mindhub.homebanking.services.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import com.mindhub.homebanking.models.*;
-import com.mindhub.homebanking.models.enums.CardColor;
-import com.mindhub.homebanking.models.enums.CardType;
-import com.mindhub.homebanking.models.enums.TransactionType;
-import java.time.LocalDateTime;
-import java.util.List;
 
 @SpringBootApplication
 public class HomebankingApplication {
@@ -22,7 +15,7 @@ public class HomebankingApplication {
 	private PasswordEncoder passwordEnconder;
 
 	@Autowired
-	private SmsService smsService;
+	private MessageService messageService;
 
 	public HomebankingApplication() {
 
@@ -41,10 +34,17 @@ public class HomebankingApplication {
 			ClientLoanRepository clientLoanRepository,
 			CardRepository cardRepository) {
 		return (args) -> {
-			this.smsService.sendSms(
+
+			/*
+			this.messageService.sendSms(
 					"+56953618681",
 					"hola desde el servicio de spring");
-			/*
+
+
+			this.messageService.sendWhatsapp(
+					"+56953618681",
+					"prueba de whatsapp desde el servicio"
+			);
 			Client melba = new Client(
 					"Melba",
 					"Morel",

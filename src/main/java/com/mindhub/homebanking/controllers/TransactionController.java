@@ -7,6 +7,7 @@ import com.mindhub.homebanking.models.enums.TransactionType;
 import com.mindhub.homebanking.repositories.AccountRepository;
 import com.mindhub.homebanking.repositories.ClientRepository;
 import com.mindhub.homebanking.repositories.TransactionRepository;
+import com.mindhub.homebanking.services.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,8 @@ import java.time.LocalDateTime;
 @RestController
 @RequestMapping("/api")
 public class TransactionController {
+    @Autowired
+    private MessageService messageService;
     @Autowired
     private TransactionRepository transactionRepository;
     @Autowired
@@ -72,6 +75,23 @@ public class TransactionController {
 
         accountRepository.save(oriAccount);
         accountRepository.save(desAccount);
+        String amountMessage = "a total of "+ amount +" has been transferred";
+        String destinationAccountMessage = " to the destination account number: " + toAccountNumber + " with the description: " +description;
+        String Message = "transfer successfully completed " +amountMessage+" "+ destinationAccountMessage;
+
+
+        this.messageService.sendWhatsapp(
+                "+56953618681",
+                Message
+        );
+
+        /*
+        this.messageService.sendSms(
+                "+56953618681",
+                Message
+        );
+         */
+
         return new ResponseEntity<>("The funds have been transferred!", HttpStatus.CREATED);
     }
 }

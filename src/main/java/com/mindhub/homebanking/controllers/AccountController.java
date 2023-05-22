@@ -5,6 +5,7 @@ import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.repositories.AccountRepository;
 import com.mindhub.homebanking.repositories.ClientRepository;
+import com.mindhub.homebanking.services.MessageService;
 import com.mindhub.homebanking.utils.AccountUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -26,6 +27,8 @@ import static java.util.stream.Collectors.toList;
 
 @RequestMapping("/api")
 public class AccountController {
+    @Autowired
+    private MessageService messageService;
 
     @Autowired
     private AccountRepository accountRepository;
@@ -63,10 +66,14 @@ public class AccountController {
         try {
             Account account = new Account(AccountUtils.generateVinNumber(), LocalDateTime.now(), 0, client);
             accountRepository.save(account);
+            String Message = "a new account with the number "+ account.getNumber() +" has been created.";
+            this.messageService.sendWhatsapp(
+                    "+56953618681",
+                    Message
+            );
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
         return new ResponseEntity<>("Account created", HttpStatus.CREATED);
     }
 

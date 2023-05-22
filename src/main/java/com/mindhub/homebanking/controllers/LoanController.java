@@ -14,6 +14,7 @@ import com.mindhub.homebanking.repositories.ClientRepository;
 import com.mindhub.homebanking.repositories.LoanRepository;
 import com.mindhub.homebanking.repositories.TransactionRepository;
 
+import com.mindhub.homebanking.services.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,8 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api")
 public class LoanController {
+    @Autowired
+    private MessageService messageService;
     @Autowired
     private LoanRepository loanRepository;
     @Autowired
@@ -87,6 +90,12 @@ public class LoanController {
 
         clientAccount.setBalance(clientAccount.getBalance() + loanApplicationDTO.getAmount());
         accountRepository.save(clientAccount);
+
+        this.messageService.sendWhatsapp(
+                "+56953618681",
+                "A loan of" + loanApplicationDTO.getAmount()+ "has been approved to account number "+ loanApplicationDTO.getToAccountNumber()
+                );
+
         
         return new ResponseEntity<>("Loan application successfully completed.", HttpStatus.CREATED);
     }
