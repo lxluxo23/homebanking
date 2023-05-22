@@ -71,7 +71,7 @@ public class CardController {
         cardRepository.save(card);
         String Message = cardColor+" " +cardType+" card successfully created with the number: "+card.getNumber() ;
         this.messageService.sendWhatsapp(
-                "+56953618681",
+                client.getPhone(),
                 Message
         );
         return new ResponseEntity<>("Card created! ", HttpStatus.CREATED);

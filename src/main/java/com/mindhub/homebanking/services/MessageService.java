@@ -39,7 +39,6 @@ public class MessageService {
             LOGGER.info("Whatsapp message send... to phone number: " + toPhoneNumber);
         }
         catch (Exception e){
-
             LOGGER.error("Error sending whatsapp message");
             LOGGER.error(e.getMessage());
         }

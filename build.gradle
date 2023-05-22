@@ -27,7 +27,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
-	//implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml'
 
 	implementation 'org.postgresql:postgresql'
@@ -39,7 +39,7 @@ dependencies {
 	implementation 'com.twilio.sdk:twilio:9.6.1'
 
 	compileOnly 'org.projectlombok:lombok:1.18.20'
-	runtimeOnly 'com.h2database:h2'
+	//runtimeOnly 'com.h2database:h2'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 }

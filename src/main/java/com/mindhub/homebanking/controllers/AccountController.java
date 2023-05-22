@@ -68,7 +68,7 @@ public class AccountController {
             accountRepository.save(account);
             String Message = "a new account with the number "+ account.getNumber() +" has been created.";
             this.messageService.sendWhatsapp(
-                    "+56953618681",
+                    client.getPhone(),
                     Message
             );
         } catch (Exception e) {

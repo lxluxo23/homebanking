@@ -81,7 +81,7 @@ public class TransactionController {
 
 
         this.messageService.sendWhatsapp(
-                "+56953618681",
+                client.getPhone(),
                 Message
         );
 

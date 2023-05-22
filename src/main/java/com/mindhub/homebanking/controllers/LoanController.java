@@ -93,7 +93,7 @@ public class LoanController {
         accountRepository.save(clientAccount);
         String Message = "A loan " + loan.getName() + " of $ " + loanApplicationDTO.getAmount() + " to account number " + loanApplicationDTO.getToAccountNumber() + " to be paid in " + loanApplicationDTO.getPayments() + " installments has been approved. ";
         this.messageService.sendWhatsapp(
-                "+56953618681",
+                client.getPhone(),
                 Message
         );
         return new ResponseEntity<>("Loan application successfully completed.", HttpStatus.CREATED);
