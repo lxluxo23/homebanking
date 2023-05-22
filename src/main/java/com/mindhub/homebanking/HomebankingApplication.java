@@ -8,6 +8,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import com.mindhub.homebanking.models.*;
+import com.mindhub.homebanking.models.enums.CardColor;
+import com.mindhub.homebanking.models.enums.CardType;
+import com.mindhub.homebanking.models.enums.TransactionType;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @SpringBootApplication
 public class HomebankingApplication {
@@ -35,8 +41,8 @@ public class HomebankingApplication {
 			CardRepository cardRepository) {
 		return (args) -> {
 
-			/*
-			this.messageService.sendSms(
+		/*
+		this.messageService.sendSms(
 					"+56953618681",
 					"hola desde el servicio de spring");
 
@@ -45,6 +51,8 @@ public class HomebankingApplication {
 					"+56953618681",
 					"prueba de whatsapp desde el servicio"
 			);
+
+
 			Client melba = new Client(
 					"Melba",
 					"Morel",
@@ -189,7 +197,7 @@ public class HomebankingApplication {
 
 			cardRepository.save(card1);
 			cardRepository.save(card2);
-			 */
+		 */
 
 		};
 	}

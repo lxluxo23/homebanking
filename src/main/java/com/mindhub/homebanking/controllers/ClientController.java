@@ -59,9 +59,6 @@ public class ClientController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    /*
-        Aqui dejare lo relacionado con cliente current
-     */
     @GetMapping("/clients/current")
     public ClientDTO getByCurrent(Authentication authentication){
         return new ClientDTO(clientRepository.findByEmail(authentication.getName()));

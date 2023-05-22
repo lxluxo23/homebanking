@@ -7,6 +7,7 @@ import com.mindhub.homebanking.models.enums.CardColor;
 import com.mindhub.homebanking.models.enums.CardType;
 import com.mindhub.homebanking.repositories.CardRepository;
 import com.mindhub.homebanking.repositories.ClientRepository;
+import com.mindhub.homebanking.services.MessageService;
 import com.mindhub.homebanking.utils.CardUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,24 +20,12 @@ import java.time.LocalDateTime;
 @RestController
 @RequestMapping("/api")
 public class CardController {
-    private void createAndSaveCard(Client client, CardType cardType, CardColor cardColor) {
-        Card card = new Card(
-                client,
-                client.getFullName(),
-                cardType,
-                cardColor,
-                CardUtils.generateCardNumber(),
-                CardUtils.createCVVNumber(),
-                LocalDateTime.now(),
-                LocalDateTime.now().plusYears(5));
-        cardRepository.save(card);
-    }
-
     @Autowired
     private ClientRepository clientRepository;
     @Autowired
     private CardRepository cardRepository;
-
+    @Autowired
+    private MessageService messageService;
     @GetMapping("/cards/{id}")
     public CardDTO getAccount(@PathVariable Long id) {
         return cardRepository.findById(id).map(CardDTO::new).orElse(null);
@@ -70,7 +59,21 @@ public class CardController {
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        createAndSaveCard(client, cardType, cardColor);
+        Card card = new Card(
+                client,
+                client.getFullName(),
+                cardType,
+                cardColor,
+                CardUtils.generateCardNumber(),
+                CardUtils.createCVVNumber(),
+                LocalDateTime.now(),
+                LocalDateTime.now().plusYears(5));
+        cardRepository.save(card);
+        String Message = cardColor+" " +cardType+" card successfully created with the number: "+card.getNumber() ;
+        this.messageService.sendWhatsapp(
+                "+56953618681",
+                Message
+        );
         return new ResponseEntity<>("Card created! ", HttpStatus.CREATED);
     }
 

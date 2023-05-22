@@ -33,7 +33,7 @@ public class Client {
     @OneToMany(mappedBy="client", fetch=FetchType.EAGER)
     Set<Card> cards = new HashSet<>();
 
-    public Client(String firstName, String lastName, String email ,String password ,String phone) {
+    public Client(String firstName, String lastName, String email ,String phone ,String password ) {
 
         this.firstName = firstName;
         this.lastName = lastName;
