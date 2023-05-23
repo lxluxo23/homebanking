@@ -1,6 +1,7 @@
 package com.mindhub.homebanking;
 
 import com.mindhub.homebanking.repositories.*;
+import com.mindhub.homebanking.services.EmailService;
 import com.mindhub.homebanking.services.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -23,6 +24,9 @@ public class HomebankingApplication {
 	@Autowired
 	private MessageService messageService;
 
+	@Autowired
+	private EmailService emailService;
+
 	public HomebankingApplication() {
 
 	}
@@ -40,6 +44,18 @@ public class HomebankingApplication {
 			ClientLoanRepository clientLoanRepository,
 			CardRepository cardRepository) {
 		return (args) -> {
+
+			String from = "no-reply@sense-it.cl";
+			String to = "pame2312@gmail.com";
+			String subject = "Prueba de correo";
+			String text = "Prueba desde Springboot";
+
+			this.emailService.send(
+					from,
+					to,
+					subject,
+					text
+			);
 
 			/*
 			this.messageService.sendSms(
