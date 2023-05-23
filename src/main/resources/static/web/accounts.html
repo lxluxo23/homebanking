@@ -19,6 +19,15 @@
                     <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                 </div>
             </div>
+            <div id="success-toast" data-bs-delay="2000" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        {{ successMsg }}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+            
         </div>
         <div class="container bg-light">
             <div class="row mt-5">
@@ -68,9 +77,14 @@
                         </div>
                     </div>
                     <div class="row mt-3">
-                        <div class="col">
+                        <div class="col-12">
                             <h2 class="display-6 subtitle">Accounts</h2>
+                        </div>
+                        <div class="col-1">
                             <button v-if="clientInfo.accounts != null && clientInfo.accounts.length < 3" v-on:click="create" id="create" class="btn btn-sm btn-outline-success">Create</button>
+                        </div>
+                        <div class="col-2">
+                            <button v-if="clientInfo.accounts != null" v-on:click="send" id="send" class="btn btn-sm btn-outline-success">send summary</button>
                         </div>
                     </div>
                     <div class="row">
@@ -107,7 +121,20 @@
             </div>
         </div>
     </div>
-
+    <div class="modal" id="loadingModal" tabindex="-1" aria-labelledby="loadingModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-body">
+              <div class="text-center">
+                <div class="spinner-border text-primary" role="status">
+                  <span class="visually-hidden">Sending information...</span>
+                </div>
+                <p class="mt-2">Sending information...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
