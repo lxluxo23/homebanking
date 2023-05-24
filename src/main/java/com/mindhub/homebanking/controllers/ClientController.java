@@ -1,8 +1,10 @@
 package com.mindhub.homebanking.controllers;
 import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Client;
+import com.mindhub.homebanking.models.CoordinateCard;
 import com.mindhub.homebanking.repositories.AccountRepository;
 import com.mindhub.homebanking.repositories.ClientRepository;
+import com.mindhub.homebanking.repositories.CoordinateCardRepository;
 import com.mindhub.homebanking.utils.AccountUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,12 +23,14 @@ import static java.util.stream.Collectors.toList;
 @RequestMapping("/api")
 public class ClientController {
     @Autowired
-
     private PasswordEncoder passwordEncoder;
     @Autowired
     private ClientRepository clientRepository;
     @Autowired
     private AccountRepository accountRepository;
+    @Autowired
+    private CoordinateCardRepository coordinateCardRepository;
+
     @GetMapping("/clients")
     public List<ClientDTO> getClients() {
         return clientRepository.findAll().stream().map(ClientDTO::new).collect(toList());
@@ -50,8 +54,10 @@ public class ClientController {
         try {
             Client client = new Client(firstName,lastName,email,passwordEncoder.encode(password));
             Account account = new Account(AccountUtils.generateVinNumber(), LocalDateTime.now(), 0 ,client);
+            CoordinateCard coordinateCard = new CoordinateCard(client);
             clientRepository.save(client);
             accountRepository.save(account);
+            coordinateCardRepository.save(coordinateCard);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
