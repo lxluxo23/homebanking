@@ -1,23 +1,24 @@
 package com.mindhub.homebanking.controllers;
 
+import com.mindhub.homebanking.dtos.CoordinateCardDTO;
 import com.mindhub.homebanking.models.Account;
+import com.mindhub.homebanking.models.CoordinateCard;
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.models.Transaction;
 import com.mindhub.homebanking.models.enums.TransactionType;
 import com.mindhub.homebanking.repositories.AccountRepository;
 import com.mindhub.homebanking.repositories.ClientRepository;
+import com.mindhub.homebanking.repositories.CoordinateCardRepository;
 import com.mindhub.homebanking.repositories.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.*;
 
 @Transactional
 @RestController
@@ -29,6 +30,34 @@ public class TransactionController {
     private ClientRepository clientRepository;
     @Autowired
     private AccountRepository accountRepository;
+    @Autowired
+    private CoordinateCardRepository coordinateCardRepository;
+
+    @GetMapping("/transactions/coordinate-card")
+    public ResponseEntity<List<String>> getCoordinateCard(Authentication authentication) {
+        Client client = clientRepository.findByEmail(authentication.getName());
+        if (client != null) {
+            CoordinateCard coordinateCard = coordinateCardRepository.findByClient(client);
+            if (coordinateCard != null) {
+                List<String> coordinateKeys = new ArrayList<>(coordinateCard.getCoordinates().keySet());
+                List<String> randomCoordinateKeys = getRandomElements(coordinateKeys, 3);
+                return new ResponseEntity<>(randomCoordinateKeys, HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    private List<String> getRandomElements(List<String> list, int count) {
+        List<String> randomElements = new ArrayList<>();
+        Random random = new Random();
+        while (randomElements.size() < count && !list.isEmpty()) {
+            int randomIndex = random.nextInt(list.size());
+            randomElements.add(list.get(randomIndex));
+            list.remove(randomIndex);
+        }
+        return randomElements;
+    }
+
     @PostMapping("/transactions")
     public ResponseEntity<Object> createTransaction(
             @RequestParam Double amount,
