@@ -10,19 +10,28 @@ var app = new Vue({
         accountToNumber: "VIN",
         trasnferType: "own",
         amount: 0,
-        description: ""
+        description: "",
+        randomKeys: []
     },
     methods:{
-        getData: function(){
+        getData: function() {
             axios.get("/api/clients/current/accounts")
-            .then((response) => {
-                //get client ifo
-                this.clientAccounts = response.data;
-            })
-            .catch((error) => {
-                this.errorMsg = "Error getting data";
-                this.errorToats.show();
-            })
+                .then((response) => {
+                    this.clientAccounts = response.data;
+                })
+                .catch((error) => {
+                    this.errorMsg = "Error getting client accounts data";
+                    this.errorToats.show();
+                });
+
+            axios.get("/api/transactions/coordinate-card")
+                .then((response) => {
+                    this.randomKeys = response.data;
+                })
+                .catch((error) => {
+                    this.errorMsg = "Error getting coordinate card data";
+                    this.errorToats.show();
+                });
         },
         formatDate: function(date){
             return new Date(date).toLocaleDateString('en-gb');
@@ -84,10 +93,10 @@ var app = new Vue({
             })
         },
     },
-    mounted: function(){
-        this.errorToats = new bootstrap.Toast(document.getElementById('danger-toast'));
-        this.modal = new bootstrap.Modal(document.getElementById('confirModal'));
-        this.okmodal = new bootstrap.Modal(document.getElementById('okModal'));
-        this.getData();
+    mounted: function() {
+      this.errorToats = new bootstrap.Toast(document.getElementById('danger-toast'));
+      this.modal = new bootstrap.Modal(document.getElementById('confirModal'));
+      this.okmodal = new bootstrap.Modal(document.getElementById('okModal'));
+      this.getData();  // Llamar al método getData
     }
 })
