@@ -23,7 +23,9 @@ public class PDFGenerator {
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
             Image logo = Image.getInstance("https://cdn.discordapp.com/attachments/1108838702114938950/1110648421792108665/logoVGS.png");
             Document document = new Document();
-            PdfWriter.getInstance(document, baos);
+            PdfWriter writer = PdfWriter.getInstance(document, baos);
+            LogoPageEvent event = new LogoPageEvent(logo);
+            writer.setPageEvent(event); 
             document.open();
             Font titleFont = new Font(Font.COURIER, 20f, Font.BOLDITALIC, Color.BLUE);
             Font subtitleFont = new Font(Font.COURIER, 20f, Font.BOLDITALIC, Color.BLUE);
@@ -33,8 +35,8 @@ public class PDFGenerator {
             title.setSpacingAfter(10);
             document.add(title);
             NumberFormat numberFormat = NumberFormat.getIntegerInstance();
-            logo.setAbsolutePosition(document.right() - 120, document.top() - 200);
-            document.add(logo);
+            //logo.setAbsolutePosition(document.right() - 120, document.top() - 200);
+            //document.add(logo);
 
             for (AccountDTO accountDTO : clientDTO.getAccounts()) {
                 String formattedBalance = numberFormat.format(accountDTO.getBalance());
