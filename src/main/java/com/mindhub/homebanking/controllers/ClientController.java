@@ -83,9 +83,10 @@ public class ClientController {
     public ResponseEntity<Object> sendInfoToEmail(Authentication authentication) {
         try {
             Client client = clientRepository.findByEmail(authentication.getName());
-            Set<AccountDTO> accountDTO = client.getAccounts().stream().map(AccountDTO::new).collect(Collectors.toSet());
+            ClientDTO clientDTO = new ClientDTO(client);
+            //Set<AccountDTO> accountDTO = client.getAccounts().stream().map(AccountDTO::new).collect(Collectors.toSet());
             PDFGenerator pdfGenerator = new PDFGenerator();
-            byte[] pdfBytes = pdfGenerator.generatePdf(accountDTO);
+            byte[] pdfBytes = pdfGenerator.generatePdf(clientDTO);
             String from = "no-reply@sense-it.cl";
             String to = "lxluxo23@gmail.com";
             String subject = "Account Summary";
