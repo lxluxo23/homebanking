@@ -17,7 +17,9 @@ public class LogoPageEvent extends PdfPageEventHelper {
     @Override
     public void onStartPage(PdfWriter writer, Document document) {
         try {
-            logo.setAbsolutePosition(document.right() - 120, document.top() - 200);
+            float scaleFactor = 0.7f;
+            logo.scaleAbsolute(logo.getWidth() * scaleFactor, logo.getHeight() * scaleFactor);
+            logo.setAbsolutePosition(document.right() - 80, document.top() - 150);
             PdfContentByte content = writer.getDirectContent();
             content.addImage(logo);
         } catch (DocumentException e) {
