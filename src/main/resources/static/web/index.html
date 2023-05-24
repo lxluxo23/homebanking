@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,7 +10,7 @@
 </head>
 <body class="index-body">
     <div id="app">
-        <div class="toast-container position-absolute p-3 top-0 end-0" id="toastPlacement">
+        <div class="toast-container position-absolute p-0 top-0 end-0" id="toastPlacement">
             <div id="danger-toast" data-bs-delay="2000" class="toast align-items-center text-white bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
                 <div class="d-flex">
                     <div class="toast-body">
@@ -20,58 +20,67 @@
                 </div>
             </div>
         </div>
-        <div class="container index-container">
-            <div class="row justify-content-center">
-                <div class="col-md-12 col-lg-10">
-                    <div class="wrap d-md-flex justify-content-center bg-light shadow">
-                        <div class="text-wrap p-4 p-lg-5 text-center d-flex align-items-center order-md-last welcome shadow-sm">
+        <div class="container index-container " >
+            <div class="row justify-content-center col justify-content-center ">
+                <div class="col-md-10 col-lg-10">
+                    <div class="wrap d-md-flex justify-content-left bg-light shadow">
+                        <div class="text-wrap p-4 p-lg-5 text-center d-flex align-items-center order-md-start welcome shadow-sm">
                             <div class="text w-100">
-                                <img class="welcome-logo" src="img/logo_vinotinto.png">
-                                <h2>Welcome to V Bank</h2>
-                                <template v-if="!showSignUp">
-                                    <p>Don't have an account?</p>
-                                    <button v-on:click="showSignUpToogle" class="btn btn-light">Sign Up</button>
-                                </template>
+                                <img class="welcome-logo" src="img/gif.gif">
+
+
                             </div>
                         </div>
-                        <div class="login-wrap p-4 p-lg-5">
-                            <template v-if="!showSignUp">
-                                <div class="d-flex">
-                                    <div class="w-100">
-                                        <h3 class="mb-4">Sign In</h3>
-                                    </div>
-                                </div>
+
+
+                        <div class="login-wrap p-4 p-lg-5 d-flex justify-content-center align-items-center" flex-column>
+
+                        <template v-if="!showSignUp">
+
                                 <form action="#" class="signin-form" v-on:submit="signIn($event)">
                                     <div class="form-group mb-3">
-                                        <label class="label" for="email">Email</label>
+                                        <div class="d-flex">
+                                            <div class="form-group mb-4" style="text-align:center">
+                                                <h4 style="font-size:1em  text-align:center ">Welcome to Volt Guard Solutions</h4>
+                                            </div>
+                                        </div>
+                                        <label class="label" for="email">Enter your email</label>
                                         <input v-model="email" id="email" type="email" class="form-control" placeholder="email@mail.com" required>
                                     </div>
                                     <div class="form-group mb-3">
-                                        <label class="label" for="password">Password</label>
+                                        <label class="label" for="password">Enter your internet password</label>
                                         <input v-model="password" id="password" type="password" class="form-control" placeholder="Password" required autocomplete="off">
                                     </div>
                                     <div class="form-group">
-                                        <button type="submit" class="form-control btn btn-primary px-3">Sign In</button>
+                                        <button type="submit" class="form-control btn btn-primary px-5  ba" style="background-color: black;">Sign In</button>
+
+                                        <div class="form-group mt-3 " style="text-align:center">
+                                            <p style="font-size:0.8em text-align:center py-5  px-1">Don't have an account?</p>
+                                        </div>
+                                        <template v-if="!showSignUp">
+                                            <button v-on:click="showSignUpToogle" class="form-control btn btn-secondary ">Get account</button>
+                                        </template>
                                     </div>
                                 </form>
                             </template>
                             <template v-else>
-                                <div class="d-flex">
-                                    <div class="w-100">
-                                        <h3 class="mb-4">Sign Up</h3>
-                                    </div>
-                                </div>
+
                                 <form action="#" class="signout-form" v-on:submit="signUp($event)">
+                                    <div class="d-flex">
+                                        <div class="w-100">
+                                            <h3 class="mb-4">Get account</h3>
+                                        </div>
+                                    </div>
                                     <div class="form-group mb-3">
-                                        <label class="label" for="firstName">First name</label>
+                                        <label class="label" for="firstName">Enter your first name</label>
                                         <input v-model="firstName" id="firstName" type="text" class="form-control" placeholder="Juan" required>
                                     </div>
                                     <div class="form-group mb-3">
-                                        <label class="lastName" for="lastName">Last name</label>
+                                        <label class="lastName" for="lastName">Enter your last name</label>
                                         <input v-model="lastName" id="lastName" type="text" class="form-control" placeholder="Martinez" required>
                                     </div>
                                     <div class="form-group mb-3">
-                                        <label class="label" for="remail">Email</label>
+                                        <label class="label" for="remail">Enter your email</label>
                                         <input v-model="email" id="remail" type="remail" class="form-control" placeholder="email@mail.com" required>
                                     </div>
                                     <div class="form-group mb-3">
@@ -83,7 +92,7 @@
                                         <input v-model="password" id="rpassword" type="password" class="form-control" placeholder="Password" required autocomplete="off">
                                     </div>
                                     <div class="form-group">
-                                        <button type="submit" class="form-control btn btn-primary px-3">Sign Up</button>
+                                        <button type="submit" class="form-control btn btn-secondary px-3" style="background-color: black">Sign Up</button>
                                         <a v-on:click="showSignUpToogle" href="#" class="link-secondary"><small>cancel</small></a>
                                     </div>
                                 </form>
