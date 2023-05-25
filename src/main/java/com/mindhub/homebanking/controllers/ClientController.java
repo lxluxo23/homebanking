@@ -7,6 +7,7 @@ import com.mindhub.homebanking.repositories.AccountRepository;
 import com.mindhub.homebanking.repositories.ClientRepository;
 import com.mindhub.homebanking.services.EmailService;
 import com.mindhub.homebanking.repositories.CoordinateCardRepository;
+import com.mindhub.homebanking.services.MessageService;
 import com.mindhub.homebanking.utils.AccountUtils;
 import com.mindhub.homebanking.utils.PDFGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,8 @@ import static org.hibernate.tool.schema.SchemaToolingLogging.LOGGER;
 public class ClientController {
     @Autowired
     private EmailService emailService;
+    @Autowired
+    private MessageService messageService;
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
@@ -103,5 +106,19 @@ public class ClientController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to send email");
         }
     }
+    @GetMapping("/clients/current/sendcoordinatecard")
+    public ResponseEntity<Object> sendCoordinateCard(Authentication authentication) {
+        Client client = clientRepository.findByEmail(authentication.getName());
+        CoordinateCard coordinateCard = coordinateCardRepository.findByClient(client);
+        try {
+            String message = "Esta es su tarjeta de coordenadas: " + coordinateCard.toString();
+            messageService.sendWhatsapp(
+                    client.getPhone(),
+                    message
+            );
+            return new ResponseEntity<>("Tarjeta de Coordenadas enviada", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Error al enviar la tarjeta de coordenadas: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
-
