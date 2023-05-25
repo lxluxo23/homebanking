@@ -56,12 +56,15 @@ var app = new Vue({
             }
         },
         transfer: function(){
-            let config = {
-                headers: {
-                    'content-type': 'application/x-www-form-urlencoded'
-                }
-            }
-            axios.post(`/api/transactions?fromAccountNumber=${this.accountFromNumber}&toAccountNumber=${this.accountToNumber}&amount=${this.amount}&description=${this.description}`,config)
+            //this.valueKeys.push(document.getElementById())
+            axios.post("/api/transactions",
+            {
+            amount: this.amount,
+            description: this.description,
+            fromAccountNumber: this.accountFromNumber,
+            toAccountNumber: this.accountToNumber,
+            randomKeys: this.randomKeys
+            })
             .then(response => { 
                 this.modal.hide();
                 this.okmodal.show();
