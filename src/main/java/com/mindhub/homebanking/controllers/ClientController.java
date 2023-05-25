@@ -111,14 +111,14 @@ public class ClientController {
         Client client = clientRepository.findByEmail(authentication.getName());
         CoordinateCard coordinateCard = coordinateCardRepository.findByClient(client);
         try {
-            String message = "Esta es su tarjeta de coordenadas: " + coordinateCard.toString();
+            String message = "This is your coordinate card:\n" + coordinateCard.toString();
             messageService.sendWhatsapp(
                     client.getPhone(),
                     message
             );
-            return new ResponseEntity<>("Tarjeta de Coordenadas enviada", HttpStatus.OK);
+            return new ResponseEntity<>("Coordinate card sent", HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("Error al enviar la tarjeta de coordenadas: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Error sending coordinate card: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

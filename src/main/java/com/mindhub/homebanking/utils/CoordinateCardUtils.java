@@ -24,10 +24,20 @@ public class CoordinateCardUtils {
                 coordinates.put(key, randomNum);
             }
         }
+        formatCoordinates(coordinates);
         return coordinates;
     }
 
     public static String getColumnLetter(int column) {
         return String.valueOf((char) (column + 64));
+    }
+
+    public static void formatCoordinates(Map<String, Integer> coordinates) {
+        for (String key : coordinates.keySet()) {
+            int number = coordinates.get(key);
+            if (number < 10) {
+                coordinates.put(key, Integer.parseInt("0" + number));
+            }
+        }
     }
 }
