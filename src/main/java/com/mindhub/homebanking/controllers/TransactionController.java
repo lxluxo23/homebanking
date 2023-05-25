@@ -91,16 +91,26 @@ public class TransactionController {
             return new ResponseEntity<>("The balance is insufficient for the transaction", HttpStatus.FORBIDDEN);
         }
         CoordinateCard coordinateCard = coordinateCardRepository.findByClient(client);
-        if (coordinateCard != null) {
-            Map<String, Integer> coordinates = coordinateCard.getCoordinates();
+        List<String> randomKeys = randomKeysDTO.getRandomKeys();
+        List<Integer> randomKeysValues = randomKeysDTO.getRandomKeysValues();
 
-            for (String key : randomKeysDTO.getRandomKeys()) {
-                if (!coordinates.containsKey(key)) {
-                    return new ResponseEntity<>("Invalid coordinates", HttpStatus.FORBIDDEN);
-                }
-            }
-        } else {
+        if (coordinateCard == null) {
             return new ResponseEntity<>("Coordinate card not found", HttpStatus.NOT_FOUND);
+        }
+
+        if (randomKeys.size() != randomKeysValues.size()) {
+            return new ResponseEntity<>("Invalid coordinates", HttpStatus.FORBIDDEN);
+        }
+
+        Map<String, Integer> coordinates = coordinateCard.getCoordinates();
+
+        for (int i = 0; i < randomKeys.size(); i++) {
+            String key = randomKeys.get(i);
+            int value = randomKeysValues.get(i);
+
+            if (!coordinates.containsKey(key) || coordinates.get(key) != value) {
+                return new ResponseEntity<>("Invalid coordinates", HttpStatus.FORBIDDEN);
+            }
         }
 
         Transaction ts1 = new Transaction(TransactionType.DEBIT,-randomKeysDTO.getAmount(), randomKeysDTO.getDescription(), LocalDateTime.now(), oriAccount);

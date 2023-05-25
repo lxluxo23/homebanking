@@ -126,15 +126,15 @@
                         <p>Transfer cannot be undone, do you want to continue?</p>
                         <div>
                             <label :for="'coordinate1'">{{ randomKeys[0] }}:</label>
-                            <input type="text" :id="'coordinate1'" class="form-control">
+                            <input type="text" v-model="randomKeysValues.k1" class="form-control">
                         </div>
                         <div>
                             <label :for="'coordinate2'">{{ randomKeys[1] }}:</label>
-                            <input type="text" :id="'coordinate2'" class="form-control">
+                            <input type="text" v-model="randomKeysValues.k2" class="form-control">
                         </div>
                         <div>
                             <label :for="'coordinate3'">{{ randomKeys[2] }}:</label>
-                            <input type="text" :id="'coordinate3'" class="form-control">
+                            <input type="text" v-model="randomKeysValues.k3" class="form-control">
                         </div>
                     </div>
                     <div class="modal-footer">

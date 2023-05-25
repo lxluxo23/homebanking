@@ -11,7 +11,12 @@ var app = new Vue({
         trasnferType: "own",
         amount: 0,
         description: "",
-        randomKeys: []
+        randomKeys: [],
+        randomKeysValues:{
+            k1:null,
+            k2:null,
+            k3:null,
+        }
     },
     methods:{
         getData: function() {
@@ -63,7 +68,9 @@ var app = new Vue({
             description: this.description,
             fromAccountNumber: this.accountFromNumber,
             toAccountNumber: this.accountToNumber,
-            randomKeys: this.randomKeys
+            randomKeys: this.randomKeys,
+            randomKeysValues : [this.randomKeysValues.k1, this.randomKeysValues.k2,this.randomKeysValues.k3]
+            
             })
             .then(response => { 
                 this.modal.hide();
