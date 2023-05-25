@@ -97,6 +97,6 @@ var app = new Vue({
       this.errorToats = new bootstrap.Toast(document.getElementById('danger-toast'));
       this.modal = new bootstrap.Modal(document.getElementById('confirModal'));
       this.okmodal = new bootstrap.Modal(document.getElementById('okModal'));
-      this.getData();  // Llamar al método getData
-    }
+      this.getData();
+      }
 })
