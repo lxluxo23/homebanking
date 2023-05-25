@@ -53,7 +53,22 @@ var app = new Vue({
                     this.errorMsg = error.response.data;
                     this.errorToats.show();
                 })
-        }
+        },
+        sendCoordinateCard: function () {
+                    this.loadingModal = new bootstrap.Modal(document.getElementById('loadingModal'));
+                    this.loadingModal.show();
+                    axios.get('/api/clients/current/sendcoordinatecard')
+                        .then(response => {
+                            this.loadingModal.hide();
+                            this.successMsg = response.data;
+                            this.sucessToats.show();
+                        })
+                        .catch((error) => {
+                            this.loadingModal.hide();
+                            this.errorMsg = error.response.data;
+                            this.errorToats.show();
+                        })
+                }
     },
     mounted: function () {
         this.errorToats = new bootstrap.Toast(document.getElementById('danger-toast'));
