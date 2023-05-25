@@ -1,6 +1,7 @@
 package com.mindhub.homebanking.controllers;
 
 import com.mindhub.homebanking.dtos.CoordinateCardDTO;
+import com.mindhub.homebanking.dtos.RandomKeysDTO;
 import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.CoordinateCard;
 import com.mindhub.homebanking.models.Client;
@@ -60,20 +61,17 @@ public class TransactionController {
 
     @PostMapping("/transactions")
     public ResponseEntity<Object> createTransaction(
-            @RequestParam Double amount,
-            @RequestParam String description,
-            @RequestParam String fromAccountNumber,
-            @RequestParam String toAccountNumber,
+            @RequestBody RandomKeysDTO randomKeysDTO,
             Authentication authentication) {
         Client client = clientRepository.findByEmail(authentication.getName());
-        Account desAccount = accountRepository.findByNumber(toAccountNumber);
-        Account oriAccount = accountRepository.findByNumber(fromAccountNumber);
+        Account desAccount = accountRepository.findByNumber(randomKeysDTO.getToAccountNumber());
+        Account oriAccount = accountRepository.findByNumber(randomKeysDTO.getFromAccountNumber());
 
-        if (amount == null || description.isEmpty() || fromAccountNumber.isEmpty()
-                || toAccountNumber.isEmpty()) {
+        if (randomKeysDTO.getAmount() == 0 || randomKeysDTO.getDescription().isEmpty() || randomKeysDTO.getFromAccountNumber().isEmpty()
+                || randomKeysDTO.getToAccountNumber().isEmpty()) {
             return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN);
         }
-        if (fromAccountNumber.equals(toAccountNumber)) {
+        if (randomKeysDTO.getFromAccountNumber().equals(randomKeysDTO.getToAccountNumber())) {
             return new ResponseEntity<>("The destination account cannot be the same as the source account.",
                     HttpStatus.FORBIDDEN);
         }
@@ -86,18 +84,30 @@ public class TransactionController {
         if (!oriAccount.getClient().equals(client)) {
             return new ResponseEntity<>("The account does not belong to the authenticated client", HttpStatus.FORBIDDEN);
         }
-        if (oriAccount.getBalance()<amount){
+        if (oriAccount.getBalance()< randomKeysDTO.getAmount()){
             return new ResponseEntity<>("The balance is insufficient for the transaction", HttpStatus.FORBIDDEN);
         }
+        CoordinateCard coordinateCard = coordinateCardRepository.findByClient(client);
+        if (coordinateCard != null) {
+            Map<String, Integer> coordinates = coordinateCard.getCoordinates();
 
-        Transaction ts1 = new Transaction(TransactionType.DEBIT,-amount,description, LocalDateTime.now(), oriAccount);
-        Transaction ts2 = new Transaction(TransactionType.CREDIT,amount,description,LocalDateTime.now(), desAccount );
+            for (String key : randomKeysDTO.getRandomKeys()) {
+                if (!coordinates.containsKey(key)) {
+                    return new ResponseEntity<>("Invalid coordinates", HttpStatus.FORBIDDEN);
+                }
+            }
+        } else {
+            return new ResponseEntity<>("Coordinate card not found", HttpStatus.NOT_FOUND);
+        }
+
+        Transaction ts1 = new Transaction(TransactionType.DEBIT,-randomKeysDTO.getAmount(), randomKeysDTO.getDescription(), LocalDateTime.now(), oriAccount);
+        Transaction ts2 = new Transaction(TransactionType.CREDIT, randomKeysDTO.getAmount(), randomKeysDTO.getDescription(), LocalDateTime.now(), desAccount );
 
         transactionRepository.save(ts1);
         transactionRepository.save(ts2);
 
-        oriAccount.setBalance(oriAccount.getBalance()-amount);
-        desAccount.setBalance(desAccount.getBalance()+amount);
+        oriAccount.setBalance(oriAccount.getBalance()- randomKeysDTO.getAmount());
+        desAccount.setBalance(desAccount.getBalance()+ randomKeysDTO.getAmount());
 
         accountRepository.save(oriAccount);
         accountRepository.save(desAccount);
