@@ -1,6 +1,6 @@
 .account{
-    background: linear-gradient(45deg,#ee0979,#ff6a00);
-    color: white;
+    background: linear-gradient(45deg,white,white);
+    color: black;
     box-shadow: 1px 1px 5px black;
 }
 
@@ -63,5 +63,5 @@
 }
 
 .index-container{
-    margin-top: 10%;
+    margin-top: 20%;
 }
