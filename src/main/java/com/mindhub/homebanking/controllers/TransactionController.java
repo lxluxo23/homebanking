@@ -114,8 +114,8 @@ public class TransactionController {
 
         accountRepository.save(oriAccount);
         accountRepository.save(desAccount);
-        String amountMessage = "a total of "+ amount +" has been transferred";
-        String destinationAccountMessage = " to the destination account number: " + toAccountNumber + " with the description: " +description;
+        String amountMessage = "a total of "+ randomKeysDTO.getAmount() +" has been transferred";
+        String destinationAccountMessage = " to the destination account number: " + randomKeysDTO.getToAccountNumber() + " with the description: " +randomKeysDTO.getDescription();
         String Message = "transfer successfully completed " +amountMessage+" "+ destinationAccountMessage;
 
 
