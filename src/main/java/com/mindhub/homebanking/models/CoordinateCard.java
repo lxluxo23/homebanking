@@ -7,7 +7,6 @@ import lombok.Setter;
 import com.mindhub.homebanking.utils.CoordinateCardUtils;
 
 import javax.persistence.*;
-import java.util.Arrays;
 import java.util.Map;
 
 

@@ -1,6 +1,5 @@
 package com.mindhub.homebanking.controllers;
 
-import com.mindhub.homebanking.dtos.CoordinateCardDTO;
 import com.mindhub.homebanking.dtos.RandomKeysDTO;
 import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.CoordinateCard;

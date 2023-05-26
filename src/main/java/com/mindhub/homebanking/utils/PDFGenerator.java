@@ -14,8 +14,6 @@ import java.io.IOException;
 import java.text.NumberFormat;
 
 import java.time.format.DateTimeFormatter;
-import java.util.Set;
-import java.util.logging.Logger;
 
 @Component
 public class PDFGenerator {

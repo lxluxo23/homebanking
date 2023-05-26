@@ -2,11 +2,8 @@ package com.mindhub.homebanking.utils;
 import com.lowagie.text.*;
 import com.lowagie.text.Font;
 import com.lowagie.text.Image;
-import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.*;
 
-import java.awt.*;
-import java.io.IOException;
 
 public class LogoPageEvent extends PdfPageEventHelper {
     private Image logo;

@@ -1,5 +1,4 @@
 package com.mindhub.homebanking.controllers;
-import com.mindhub.homebanking.dtos.AccountDTO;
 import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.models.CoordinateCard;
@@ -18,11 +17,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import com.mindhub.homebanking.dtos.ClientDTO;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 import static org.hibernate.tool.schema.SchemaToolingLogging.LOGGER;
@@ -91,11 +87,10 @@ public class ClientController {
         try {
             Client client = clientRepository.findByEmail(authentication.getName());
             ClientDTO clientDTO = new ClientDTO(client);
-            //Set<AccountDTO> accountDTO = client.getAccounts().stream().map(AccountDTO::new).collect(Collectors.toSet());
             PDFGenerator pdfGenerator = new PDFGenerator();
             byte[] pdfBytes = pdfGenerator.generatePdf(clientDTO);
             String from = "no-reply@sense-it.cl";
-            String to = "lxluxo23@gmail.com";
+            String to = client.getEmail();
             String subject = "Account Summary";
             String text = "Dear " + client.getFullName() + ",\n\nPlease find attached the account summary.";
             emailService.send(from, to, subject, text, pdfBytes, "account_summary.pdf");
