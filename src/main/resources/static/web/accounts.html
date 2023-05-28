@@ -95,7 +95,7 @@
 
         </div>
 
-        <nav class="sidenav navbar navbar-vertical navbar-expand-xxl border-0 border-radius-xl my-5 fixed-start position-absolute ms-3 bg-white"
+        <nav class="sidenav navbar navbar-vertical navbar-expand-xxl border-2 border-radius-xl my-6 fixed-start position-absolute ms-3 bg-white"
             id="sidenav-main font-size">
             <div class=" mx-20 " id="sidenav-collapse-main ">
                 <ul class="navbar-nav">
@@ -135,7 +135,7 @@
                                     </g>
                                 </svg>
                             </div>
-                            <span class="nav-link-text ms-1">Account</span>
+                            <p class="nav-link-text ms-3 my-2" style="font-size: 24px;">Account</p>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -163,7 +163,7 @@
                                     </g>
                                 </svg>
                             </div>
-                            <span class="nav-link-text ms-1">Cards</span>
+                            <span class="nav-link-text ms-3 my-2" style="font-size: 24px;">Cards</span>
                         </a>
                     </li>
 
@@ -192,7 +192,7 @@
                                     </g>
                                 </svg>
                             </div>
-                            <span class="nav-link-text ms-1">Transfer</span>
+                            <span class="nav-link-text ms-3 my-2" style="font-size: 24px;">Transfer</span>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -223,7 +223,7 @@
                                     </g>
                                 </svg>
                             </div>
-                            <span class="nav-link-text ms-1">Loans</span>
+                            <span class="nav-link-text ms-3 my-2" style="font-size: 24px;">Loans</span>
                         </a>
                     </li>
 
@@ -252,7 +252,7 @@
                                     </g>
                                 </svg>
                             </div>
-                            <span class="nav-link-text ms-1">Sign In</span>
+                            <span class="nav-link-text ms-3 my-2" style="font-size: 24px;">Sign In</span>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -286,101 +286,115 @@
                                     </g>
                                 </svg>
                             </div>
-                            <span class="nav-link-text ms-1">Sign Up</span>
+                            <span class="nav-link-text ms-3 my-2" style="font-size: 24px;">Sign Up</span>
                         </a>
                     </li>
                 </ul>
             </div>
         </nav>
         <div class="main-content" id="panel">
-            <nav class="navbar navbar-main navbar-expand-l px-0 mx-1 mt-6 shadow-none border-radius-xl bg-warning">
-                <span class="badge badge-secondary" style="font-size: 14px;">{{ clientInfo.firstName }} {{ clientInfo.lastName }}</span>
-                <span id="fecha" style="font-size: 14px; font-family: Arial; color: #696969; margin-right: 50px;"></span>
+            <nav class="navbar navbar-main navbar-expand-l px-0 mx-1 mt-3 shadow-none border-radius-lg bg-warning">
+                <span class="badge badge-secondary" style="font-size: 14px;">{{ clientInfo.firstName }} {{
+                    clientInfo.lastName }}</span>
+                <span id="fecha"
+                    style="font-size: 14px; font-family: Arial; color: #696969; margin-right: 50px;"></span>
             </nav>
-
-            <div class="container-fluid pt-4">
-                <div class="col">
-                    <div class="row mt-3">
-                        <nav class="navbar navbar-light bg-light navbar-expand-l">
-                            <div class="container-fluid">
-                                <p class="navbar-brand mb-0 " style="font-size: 18px;">Accounts</p>
-                            </div>
-                        </nav>
-                       de aqui
-                        <div class="row mt-3">
-
-                        <div class="col-2 ">
-                            <button v-if="clientInfo.accounts != null" v-on:click="send" id="send"
-                                class="btn btn-sm btn-outline-success">send summary
-                            </button>
-                        </div>
-                        <div class="col-3">
-                            <button v-if="clientInfo.accounts != null" v-on:click="sendCoordinateCard" id="sendCoordinateCard" class="btn btn-sm btn-outline-success">send coordinate card</button>
-                        </div>
-                            <div class="col-1">
-                                <button v-if="clientInfo.accounts != null && clientInfo.accounts.length < 3"
-                                        v-on:click="create" id="create" class="btn btn-sm btn-outline-success">Create</button>
-                            </div>
-                    </div>
-                    tarjetas
-                    <div class="row">
-                        <div v-for="account in clientInfo.accounts" class="col-12 col-md-3 mt-2">
-                            <a class="account-link" v-bind:href="'/web/account.html?id='+account.id">
-                                <div class="card border-0 account">
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{ account.number }}</h5>
-                                        <p class="card-text"> {{ formatDate(account.creationDate) }}</p>
-                                        <p class="text-center lead account-balance"> ${{ account.balance }} </p>
+            <!--de aqui          tarjetas-->
+            <div class="container-fluid pt-2">
+                <div class="col ">
+                    <div class="">
+                        <h5 class="card-header " style="background-color:#EBF5FB;">Account</h5>
+                        <div class="card ">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div v-for="account in clientInfo.accounts" class="col-12 col-md-3 mt-2">
+                                        <a class="account-link" v-bind:href="'/web/account.html?id='+account.id">
+                                            <div
+                                                class=" border-1 account border border-dark border-radius-lg shadow-sm ">
+                                                <div class="card-body ">
+                                                    <h5 class="card-title">{{ account.number }}</h5>
+                                                    <p class="card-text"> {{ formatDate(account.creationDate) }}</p>
+                                                    <p class="text-center lead account-balance"> ${{ account.balance }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </a>
                                     </div>
                                 </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col">
-                            <h2 class="display-6">Loans</h2>
-                            <span class="small" v-if="clientInfo.loan != null && clientInfo.loans.length <= 0">No
-                                loans</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div v-for="loan in clientInfo.loans" class="col-12 col-md-3 mt-2">
-                            <div class="card border-0 loan">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ loan.name }}</h5>
-                                    <p class="card-text"> payments: {{ loan.payments}}</p>
-                                    <p class="text-center lead account-balance"> ${{ loan.amount }} </p>
-                                </div>
+                            </div>
+                            <div class="bottom-0 end-5 mt-20">
+                                <button v-if="clientInfo.accounts != null" v-on:click="send" id="send"
+                                    class="btn btn-sm btn-outline-success">send summary</button>
+                                <button v-if="clientInfo.accounts != null" v-on:click="sendCoordinateCard"
+                                    id="sendCoordinateCard" class="btn btn-sm btn-outline-success">send coordinate
+                                    card</button>
+                                <button v-if="clientInfo.accounts != null && clientInfo.accounts.length < 3"
+                                    v-on:click="create" id="create"
+                                    class="btn btn-sm btn-outline-success">Create</button>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            </div>
-            aca
-            <footer class="footer pt-3 pb-4">
-                <div class="container-fluid">
+
+
+
+                    <div class="mt-3">
+                        <h5 class="card-header " style="background-color:#EBF5FB; ">Loans</h5>
+                        <span class="small" v-if="clientInfo.loan != null && clientInfo.loans.length <= 0">No
+                            loans</span>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div v-for="loan in clientInfo.loans" class="col-12 col-md-3 mt-2">
+                                        <div class=" border-1 account border border-dark border-radius-lg shadow-sm">
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{ loan.name }}</h5>
+                                                <p class="card-text"> payments: {{ loan.payments}}</p>
+                                                <p class="text-center lead account-balance"> ${{ loan.amount }} </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+
+
 
                 </div>
-
-            </footer>
+            </div>
         </div>
+        <!--nueva         tarjetas-->
+
+
+
+        <!--hasta aca         tarjetas-->
+        <footer class="footer pt-3 pb-4">
+            <div class="container-fluid">
+
+            </div>
+
+        </footer>
+    </div>
     </div>
     <!-- modal de carga -->
     <div class="modal" id="loadingModal" tabindex="-1" aria-labelledby="loadingModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-body">
-              <div class="text-center">
-                <div class="spinner-border text-primary" role="status">
-                  <span class="visually-hidden">Sending information...</span>
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="text-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Sending information...</span>
+                        </div>
+                        <p class="mt-2">Sending information...</p>
+                    </div>
                 </div>
-                <p class="mt-2">Sending information...</p>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
