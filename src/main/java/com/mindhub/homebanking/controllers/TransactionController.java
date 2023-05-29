@@ -18,6 +18,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.NumberFormat;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -123,7 +124,10 @@ public class TransactionController {
 
         accountRepository.save(oriAccount);
         accountRepository.save(desAccount);
-        String amountMessage = "a total of "+ randomKeysDTO.getAmount() +" has been transferred";
+        NumberFormat numberFormat = NumberFormat.getIntegerInstance();
+        String formattedAmount = numberFormat.format(randomKeysDTO.getAmount());
+
+        String amountMessage = "a total of $"+ formattedAmount +" has been transferred";
         String destinationAccountMessage = " to the destination account number: " + randomKeysDTO.getToAccountNumber() + " with the description: " +randomKeysDTO.getDescription();
         String Message = "transfer successfully completed " +amountMessage+" "+ destinationAccountMessage;
 

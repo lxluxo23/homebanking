@@ -22,6 +22,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.NumberFormat;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -91,7 +92,10 @@ public class LoanController {
 
         clientAccount.setBalance(clientAccount.getBalance() + loanApplicationDTO.getAmount());
         accountRepository.save(clientAccount);
-        String Message = "A loan " + loan.getName() + " of $ " + loanApplicationDTO.getAmount() + " to account number " + loanApplicationDTO.getToAccountNumber() + " to be paid in " + loanApplicationDTO.getPayments() + " installments has been approved. ";
+        NumberFormat numberFormat = NumberFormat.getIntegerInstance();
+        String formattedAmount = numberFormat.format(loanApplicationDTO.getAmount());
+
+        String Message = "A loan " + loan.getName() + " of $" +formattedAmount+ " to account number " + loanApplicationDTO.getToAccountNumber() + " to be paid in " + loanApplicationDTO.getPayments() + " installments has been approved. ";
         this.messageService.sendWhatsapp(
                 client.getPhone(),
                 Message
