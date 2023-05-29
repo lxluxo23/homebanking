@@ -3,7 +3,7 @@
     color: black;
 
 }
-
+f
 .account:hover{
     box-shadow: 2px 2px 10px #AED6F1;
 }
@@ -57,7 +57,7 @@
 }
 
 .index-body{
-    background-image: url(../img/aro.jpg);
+
     background-size: cover;
     background-attachment: fixed;
 }
